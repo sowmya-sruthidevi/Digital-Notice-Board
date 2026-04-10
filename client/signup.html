@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — Notice Display System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <h1>Create Account</h1>
+      <p class="subtitle">Set up your notice display management</p>
+
+      <div id="alert" class="alert hidden"></div>
+
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="John Doe" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Min. 6 characters" required minlength="6" autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn btn-primary" id="submitBtn">Create Account</button>
+      </form>
+
+      <p class="auth-link">
+        Already have an account? <a href="index.html">Sign in</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="js/signup.js"></script>
+</body>
+</html>

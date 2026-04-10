@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Notice Display System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Header -->
+    <div class="dash-header">
+      <h1>📺 Notice Dashboard</h1>
+      <div class="user-info">
+        <a class="btn-logout" href="history.html">History</a>
+        <span id="userName"></span>
+        <button class="btn-logout" onclick="logout()">Sign Out</button>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <!-- Create Notice Panel -->
+      <div class="panel">
+        <h2><span class="icon">✨</span> Create Notice</h2>
+
+        <div id="createAlert" class="alert hidden"></div>
+
+        <form id="noticeForm">
+          <div class="form-group">
+            <label for="noticeType">Notice Type</label>
+            <select id="noticeType" required>
+              <option value="text">📝 Text</option>
+              <option value="image">🖼️ Image</option>
+              <option value="video">🎬 Video</option>
+              <option value="audio">🎵 Audio</option>
+            </select>
+          </div>
+
+          <!-- Text content (shown for text type) -->
+          <div class="form-group" id="textGroup">
+            <label for="textContent">Main Text / Subtext</label>
+            <textarea id="textContent" rows="3" placeholder="Enter main text on the first line and subtext on the second line..."></textarea>
+          </div>
+
+          <div class="form-group" id="textLayoutGroup">
+            <label for="textLayout">Text Display Mode</label>
+            <select id="textLayout">
+              <option value="single">Single text</option>
+              <option value="multi">Multiple text together</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="linkGroup">
+            <label for="linkUrl">Website Link (optional)</label>
+            <input type="url" id="linkUrl" placeholder="https://example.com">
+          </div>
+
+          <div class="form-group hidden" id="imageSizeGroup">
+            <label for="imageSize">Image Display Size (%)</label>
+            <input type="number" id="imageSize" value="100" min="20" max="100" step="5">
+          </div>
+
+          <!-- File upload (shown for media types) -->
+          <div class="form-group hidden" id="fileGroup">
+            <label>Upload File</label>
+            <div class="file-upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+              <div class="upload-icon">📁</div>
+              <p>Click to upload or drag and drop</p>
+              <p class="file-name hidden" id="fileName"></p>
+            </div>
+            <input type="file" id="fileInput" class="hidden" accept="">
+          </div>
+
+          <div class="form-group">
+            <label for="duration">Duration (seconds)</label>
+            <input type="number" id="duration" value="10" min="1" max="300" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="createBtn">Create Notice</button>
+        </form>
+
+        <!-- QR Code -->
+        <div class="qr-section">
+          <h2><span class="icon">📱</span> Display QR Code</h2>
+          <p style="color: var(--text-muted); font-size: 13px;">Scan to open display on any device</p>
+
+          <div class="form-group">
+            <label for="qrSource">QR Content</label>
+            <select id="qrSource">
+              <option value="display-url">Display URL</option>
+              <option value="notice-text">Current notice text</option>
+              <option value="custom-text">Website link / custom text</option>
+            </select>
+          </div>
+
+          <div class="form-group hidden" id="qrCustomGroup">
+            <label for="qrCustomText">Website link / custom text</label>
+            <textarea id="qrCustomText" rows="3" placeholder="Paste a website link or type any text to encode in the QR code..."></textarea>
+          </div>
+
+          <img id="qrImage" src="" alt="QR Code" width="200" height="200" style="display:none;">
+          <div class="qr-url" id="qrUrl"></div>
+        </div>
+      </div>
+
+      <!-- Notice List Panel -->
+      <div class="panel">
+        <h2><span class="icon">📋</span> Active Notices</h2>
+        <div id="noticeList" class="notice-list">
+          <div class="empty-state">
+            <div class="empty-icon">📭</div>
+            <p>No notices yet. Create your first one!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

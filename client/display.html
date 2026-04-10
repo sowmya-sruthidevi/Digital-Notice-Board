@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Display — Notice Display System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { overflow: hidden; cursor: none; }
+    body:hover { cursor: default; }
+  </style>
+</head>
+<body>
+  <div class="sound-gate" id="soundGate">
+    <button class="sound-gate-btn" id="enableSoundBtn" type="button">Enable Sound</button>
+    <p class="sound-gate-help">Tap once to allow video voice playback.</p>
+  </div>
+  <div class="connection-status status-connected" id="connStatus">● Connected</div>
+  <div class="notice-qr-panel hidden" id="noticeQrPanel">
+    <div class="notice-qr-card">
+      <img id="noticeQrImage" src="" alt="Notice QR Code">
+      <div class="notice-qr-label" id="noticeQrLabel"></div>
+    </div>
+  </div>
+  <div class="display-container" id="displayContainer">
+    <div class="display-slide active" id="emptySlide">
+      <div class="text-notice">Waiting for notices...</div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/display.js"></script>
+</body>
+</html>

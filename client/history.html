@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History - Notice Display System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="dashboard">
+    <div class="dash-header">
+      <h1>🕒 Notice History</h1>
+      <div class="user-info">
+        <button class="btn-logout" onclick="clearHistory()">Clear History</button>
+        <a class="btn-logout" href="admin.html">Back to Admin</a>
+        <span id="historyUserName"></span>
+        <button class="btn-logout" onclick="logoutHistory()">Sign Out</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2><span class="icon">📜</span> Activity Log</h2>
+      <div id="historyList" class="history-list">
+        <div class="empty-state">
+          <div class="empty-icon">⌛</div>
+          <p>Loading history...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/history.js"></script>
+</body>
+</html>
