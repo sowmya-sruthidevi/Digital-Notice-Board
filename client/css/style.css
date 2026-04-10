@@ -100,6 +100,93 @@ body::after {
   padding: 28px;
 }
 
+.board-auth-container {
+  grid-template-columns: minmax(360px, 1.1fr) minmax(320px, 460px);
+  align-items: stretch;
+  gap: 20px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.notice-board-hero {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lift);
+  backdrop-filter: blur(12px);
+  padding: clamp(22px, 3vw, 34px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  animation: revealUp 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.notice-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #0a5fb4;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.notice-board-head h1 {
+  margin-top: 6px;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.75rem, 3.2vw, 3rem);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+
+.notice-subtitle {
+  margin-top: 10px;
+  color: var(--text-soft);
+  max-width: 52ch;
+}
+
+.student-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.student-gallery img {
+  width: 100%;
+  height: clamp(120px, 20vh, 180px);
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 12px 22px rgba(18, 35, 61, 0.14);
+}
+
+.ticker-board {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.ticker-board span {
+  background: linear-gradient(140deg, rgba(10, 132, 255, 0.12), rgba(0, 191, 165, 0.08));
+  border: 1px solid rgba(10, 132, 255, 0.2);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #12447a;
+  text-align: center;
+}
+
+.board-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-inline {
+  width: auto;
+  min-width: 130px;
+  padding: 11px 18px;
+}
+
 .auth-card {
   width: min(460px, 100%);
   background: var(--surface);
@@ -114,6 +201,14 @@ body::after {
 .auth-card h1 {
   font-family: 'Outfit', sans-serif;
   font-size: clamp(1.6rem, 2.4vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.auth-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.4rem, 2vw, 1.9rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   margin-bottom: 8px;

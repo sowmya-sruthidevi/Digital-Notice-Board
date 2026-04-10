@@ -7,9 +7,35 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="auth-container">
-    <div class="auth-card">
-      <h1>Welcome Back</h1>
+  <div class="auth-container board-auth-container">
+    <section class="notice-board-hero">
+      <div class="notice-board-head">
+        <p class="notice-kicker">Campus Communication</p>
+        <h1>Digital Notice Board</h1>
+        <p class="notice-subtitle">Live updates for classes, events, exams, clubs, and placement activities.</p>
+      </div>
+
+      <div class="student-gallery" aria-label="Student activity highlights">
+        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80" alt="Students walking on campus">
+        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students working together on a project">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Group of students smiling in a classroom">
+      </div>
+
+      <div class="ticker-board" aria-hidden="true">
+        <span>Morning Assembly 9:00 AM</span>
+        <span>Exam Timetable Updated</span>
+        <span>Hackathon Registrations Open</span>
+        <span>Placement Drive - Hall B</span>
+      </div>
+
+      <div class="board-actions">
+        <button type="button" class="btn btn-primary btn-inline" id="heroSignInBtn">Sign In</button>
+        <button type="button" class="btn btn-logout btn-inline" id="heroSignOutBtn">Sign Out</button>
+      </div>
+    </section>
+
+    <div class="auth-card" id="loginCard">
+      <h2 class="auth-title">Administrator Access</h2>
       <p class="subtitle">Sign in to manage your notice displays</p>
 
       <div id="alert" class="alert hidden"></div>
