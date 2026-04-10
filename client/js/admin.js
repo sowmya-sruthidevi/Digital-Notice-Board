@@ -1,4 +1,6 @@
-const API = window.location.origin;
+const API = ['http:', 'https:'].includes(window.location.protocol)
+  ? window.location.origin
+  : 'http://localhost:3000';
 const token = localStorage.getItem('token');
 const user = JSON.parse(localStorage.getItem('user') || '{}');
 

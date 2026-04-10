@@ -3,59 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login — Notice Display System</title>
+  <title>Digital Notice Board — Notice Display System</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <div class="auth-container board-auth-container">
-    <section class="notice-board-hero">
-      <div class="notice-board-head">
-        <p class="notice-kicker">Campus Communication</p>
-        <h1>Digital Notice Board</h1>
-        <p class="notice-subtitle">Live updates for classes, events, exams, clubs, and placement activities.</p>
-      </div>
+<body class="board-page">
+  <div class="auth-container board-auth-container board-home">
+    <div id="alert" class="alert hidden board-alert"></div>
 
-      <div class="student-gallery" aria-label="Student activity highlights">
-        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80" alt="Students walking on campus">
-        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students working together on a project">
-        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Group of students smiling in a classroom">
-      </div>
+    <section class="notice-board-hero reference-board-ui">
+      <div class="board-frame" aria-label="Digital notice board">
+        <div class="sticky-note sticky-top-left">Exam Time Table Updated</div>
+        <div class="sticky-note sticky-top-right">Coding Club Meet<br>Friday 4 PM</div>
+        <div class="sticky-note sticky-right">Placement Drive<br>Hall B</div>
+        <div class="sticky-note sticky-left">Library Week<br>Starts Monday</div>
+        <div class="sticky-note sticky-bottom-right">Cultural Fest<br>Registrations Open</div>
 
-      <div class="ticker-board" aria-hidden="true">
-        <span>Morning Assembly 9:00 AM</span>
-        <span>Exam Timetable Updated</span>
-        <span>Hackathon Registrations Open</span>
-        <span>Placement Drive - Hall B</span>
-      </div>
+        <article class="notice-sheet">
+          <p class="notice-kicker">Campus Bulletin</p>
+          <h1>Digital Notice Board</h1>
+          <p class="notice-subtitle">Student updates, announcements, events and timetable notices in one place.</p>
 
-      <div class="board-actions">
-        <button type="button" class="btn btn-primary btn-inline" id="heroSignInBtn">Sign In</button>
-        <button type="button" class="btn btn-logout btn-inline" id="heroSignOutBtn">Sign Out</button>
+          <div class="board-actions center-actions">
+            <button type="button" class="btn btn-primary btn-inline" id="heroSignInBtn">Sign In</button>
+            <button type="button" class="btn btn-board-secondary btn-inline" id="heroSignUpBtn">Sign Up</button>
+          </div>
+        </article>
       </div>
     </section>
-
-    <div class="auth-card" id="loginCard">
-      <h2 class="auth-title">Administrator Access</h2>
-      <p class="subtitle">Sign in to manage your notice displays</p>
-
-      <div id="alert" class="alert hidden"></div>
-
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
-        </div>
-        <button type="submit" class="btn btn-primary" id="submitBtn">Sign In</button>
-      </form>
-
-      <p class="auth-link">
-        Don't have an account? <a href="signup.html">Create one</a>
-      </p>
-    </div>
   </div>
 
   <script src="js/login.js"></script>

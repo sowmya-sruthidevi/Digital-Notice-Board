@@ -1,4 +1,6 @@
-const API = window.location.origin;
+const API = ['http:', 'https:'].includes(window.location.protocol)
+  ? window.location.origin
+  : 'http://localhost:3000';
 
 function showAlert(msg, type = 'error') {
   const el = document.getElementById('alert');
@@ -40,7 +42,7 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     showAlert('Account created! Please sign in.', 'success');
-    setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+    setTimeout(() => { window.location.href = 'admin-login.html'; }, 1000);
   } catch (err) {
     showAlert('Connection error. Is the server running?');
   } finally {

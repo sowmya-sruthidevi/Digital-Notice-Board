@@ -1,4 +1,6 @@
-const API = window.location.origin;
+const API = ['http:', 'https:'].includes(window.location.protocol)
+  ? window.location.origin
+  : 'http://localhost:3000';
 const socket = io(API);
 const container = document.getElementById('displayContainer');
 const connStatus = document.getElementById('connStatus');
