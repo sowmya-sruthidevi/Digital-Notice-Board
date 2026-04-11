@@ -74,7 +74,7 @@ const upload = multer({
 // POST /notice — Create a notice (protected)
 router.post('/notice', auth, upload.single('file'), async (req, res) => {
   try {
-    const { type, content, duration, linkUrl, textLayout, imageScale } = req.body;
+    const { type, content, duration, linkUrl, textLayout, imageScale, imageFitMode, imageWidth, imageHeight } = req.body;
 
     if (!type) return res.status(400).json({ error: 'Notice type is required.' });
 
@@ -82,6 +82,9 @@ router.post('/notice', auth, upload.single('file'), async (req, res) => {
     let noticeLinkUrl = '';
     let noticeTextLayout = 'single';
     let noticeImageScale = 100;
+    let noticeImageFitMode = 'auto';
+    let noticeImageWidth = 100;
+    let noticeImageHeight = 100;
 
     // For media types, use uploaded file path
     if (['image', 'video', 'audio'].includes(type)) {
@@ -93,9 +96,23 @@ router.post('/notice', auth, upload.single('file'), async (req, res) => {
       noticeContent = `/uploads/${folder}/${req.file.filename}`;
 
       if (type === 'image') {
+        noticeImageFitMode = String(imageFitMode || 'auto').trim().toLowerCase() === 'custom' ? 'custom' : 'auto';
+
         const parsedScale = parseInt(imageScale, 10);
         if (Number.isFinite(parsedScale)) {
           noticeImageScale = Math.min(100, Math.max(20, parsedScale));
+        }
+
+        if (noticeImageFitMode === 'custom') {
+          const parsedWidth = parseInt(imageWidth, 10);
+          if (Number.isFinite(parsedWidth)) {
+            noticeImageWidth = Math.min(100, Math.max(20, parsedWidth));
+          }
+
+          const parsedHeight = parseInt(imageHeight, 10);
+          if (Number.isFinite(parsedHeight)) {
+            noticeImageHeight = Math.min(100, Math.max(20, parsedHeight));
+          }
         }
       }
     } else if (type === 'text') {
@@ -121,6 +138,9 @@ router.post('/notice', auth, upload.single('file'), async (req, res) => {
       linkUrl: noticeLinkUrl,
       textLayout: noticeTextLayout,
       imageScale: noticeImageScale,
+      imageFitMode: noticeImageFitMode,
+      imageWidth: noticeImageWidth,
+      imageHeight: noticeImageHeight,
       duration: parseInt(duration) || 10,
       createdBy: req.user.id,
     });
@@ -153,7 +173,7 @@ router.put('/notice/:id', auth, async (req, res) => {
     const notice = await Notice.findById(req.params.id);
     if (!notice) return res.status(404).json({ error: 'Notice not found.' });
 
-    const { content, duration, linkUrl, textLayout, imageScale } = req.body;
+    const { content, duration, linkUrl, textLayout, imageScale, imageFitMode, imageWidth, imageHeight } = req.body;
 
     if (notice.type === 'text') {
       const nextContent = String(content || '').trim();
@@ -181,6 +201,26 @@ router.put('/notice/:id', auth, async (req, res) => {
         return res.status(400).json({ error: 'Image display size must be a valid number.' });
       }
       notice.imageScale = Math.min(100, Math.max(20, parsedScale));
+    }
+
+    if (notice.type === 'image' && imageFitMode !== undefined) {
+      notice.imageFitMode = String(imageFitMode).trim().toLowerCase() === 'custom' ? 'custom' : 'auto';
+    }
+
+    if (notice.type === 'image' && notice.imageFitMode === 'custom' && imageWidth !== undefined) {
+      const parsedWidth = parseInt(imageWidth, 10);
+      if (!Number.isFinite(parsedWidth)) {
+        return res.status(400).json({ error: 'Image width must be a valid number.' });
+      }
+      notice.imageWidth = Math.min(100, Math.max(20, parsedWidth));
+    }
+
+    if (notice.type === 'image' && notice.imageFitMode === 'custom' && imageHeight !== undefined) {
+      const parsedHeight = parseInt(imageHeight, 10);
+      if (!Number.isFinite(parsedHeight)) {
+        return res.status(400).json({ error: 'Image height must be a valid number.' });
+      }
+      notice.imageHeight = Math.min(100, Math.max(20, parsedHeight));
     }
 
     if (duration !== undefined) {

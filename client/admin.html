@@ -56,8 +56,26 @@
           </div>
 
           <div class="form-group hidden" id="imageSizeGroup">
-            <label for="imageSize">Image Display Size (%)</label>
+            <label for="imageSize">Image Size (%)</label>
             <input type="number" id="imageSize" value="100" min="20" max="100" step="5">
+          </div>
+
+          <div class="form-group hidden" id="imageFitModeGroup">
+            <label for="imageFitMode">Image Fit Mode</label>
+            <select id="imageFitMode">
+              <option value="auto" selected>Auto fit to screen</option>
+              <option value="custom">Use custom length and breadth</option>
+            </select>
+          </div>
+
+          <div class="form-group hidden" id="imageWidthGroup">
+            <label for="imageWidth">Length / Width (%)</label>
+            <input type="number" id="imageWidth" value="100" min="20" max="100" step="5">
+          </div>
+
+          <div class="form-group hidden" id="imageHeightGroup">
+            <label for="imageHeight">Breadth / Height (%)</label>
+            <input type="number" id="imageHeight" value="100" min="20" max="100" step="5">
           </div>
 
           <!-- File upload (shown for media types) -->

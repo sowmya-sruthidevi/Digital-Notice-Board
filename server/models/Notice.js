@@ -25,6 +25,23 @@ const noticeSchema = new mongoose.Schema({
     min: 20,
     max: 100,
   },
+  imageFitMode: {
+    type: String,
+    enum: ['auto', 'custom'],
+    default: 'auto',
+  },
+  imageWidth: {
+    type: Number,
+    default: 100,
+    min: 20,
+    max: 100,
+  },
+  imageHeight: {
+    type: Number,
+    default: 100,
+    min: 20,
+    max: 100,
+  },
   duration: {
     type: Number,
     required: true,

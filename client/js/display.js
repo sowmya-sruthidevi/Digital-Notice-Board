@@ -218,8 +218,11 @@ function createSlide(notice) {
       break;
 
     case 'image':
+      const isAutoFit = String(notice.imageFitMode || 'auto').toLowerCase() !== 'custom';
+      const imageWidth = isAutoFit ? 100 : clampPercent(notice.imageWidth || notice.imageScale || 100);
+      const imageHeight = isAutoFit ? 100 : clampPercent(notice.imageHeight || notice.imageScale || 100);
       slide.classList.add('image-fill-slide');
-      slide.innerHTML = `<img class="image-fill" src="${notice.content}" alt="Notice" onerror="this.parentElement.innerHTML='<div class=\\'text-notice\\'>Image unavailable</div>'" />`;
+      slide.innerHTML = `<img class="image-fill ${isAutoFit ? 'auto-fit' : 'custom-fit'}" style="--img-w:${imageWidth}vw; --img-h:${imageHeight}vh;" src="${notice.content}" alt="Notice" onerror="this.parentElement.innerHTML='<div class=\\'text-notice\\'>Image unavailable</div>'" />`;
       break;
 
     case 'video':
@@ -398,6 +401,12 @@ function getQrTextForNotice(notice) {
 
 function isWebsiteUrl(value) {
   return /^https?:\/\//i.test(String(value || '').trim());
+}
+
+function clampPercent(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return 100;
+  return Math.min(100, Math.max(20, n));
 }
 
 function hideNoticeQr() {

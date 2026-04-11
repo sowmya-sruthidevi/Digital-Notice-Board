@@ -47,6 +47,18 @@ const linkGroup = document.getElementById('linkGroup');
 const linkUrl = document.getElementById('linkUrl');
 const imageSizeGroup = document.getElementById('imageSizeGroup');
 const imageSize = document.getElementById('imageSize');
+const imageFitModeGroup = document.getElementById('imageFitModeGroup');
+const imageFitMode = document.getElementById('imageFitMode');
+const imageWidthGroup = document.getElementById('imageWidthGroup');
+const imageWidth = document.getElementById('imageWidth');
+const imageHeightGroup = document.getElementById('imageHeightGroup');
+const imageHeight = document.getElementById('imageHeight');
+
+function syncImageSizeControls() {
+  const useCustom = imageFitMode.value === 'custom';
+  imageWidthGroup.classList.toggle('hidden', !useCustom);
+  imageHeightGroup.classList.toggle('hidden', !useCustom);
+}
 
 const FILE_ACCEPTS = {
   image: 'image/jpeg,image/png,image/gif,image/webp',
@@ -61,18 +73,30 @@ typeSelect.addEventListener('change', () => {
     textLayoutGroup.classList.remove('hidden');
     linkGroup.classList.remove('hidden');
     imageSizeGroup.classList.add('hidden');
+    imageFitModeGroup.classList.add('hidden');
+    imageWidthGroup.classList.add('hidden');
+    imageHeightGroup.classList.add('hidden');
     fileGroup.classList.add('hidden');
   } else {
     textGroup.classList.add('hidden');
     textLayoutGroup.classList.add('hidden');
     linkGroup.classList.add('hidden');
     imageSizeGroup.classList.toggle('hidden', type !== 'image');
+    imageFitModeGroup.classList.toggle('hidden', type !== 'image');
+    if (type === 'image') {
+      syncImageSizeControls();
+    } else {
+      imageWidthGroup.classList.add('hidden');
+      imageHeightGroup.classList.add('hidden');
+    }
     fileGroup.classList.remove('hidden');
     fileInput.accept = FILE_ACCEPTS[type] || '';
     fileName.classList.add('hidden');
     fileInput.value = '';
   }
 });
+
+imageFitMode.addEventListener('change', syncImageSizeControls);
 
 fileInput.addEventListener('change', () => {
   if (fileInput.files.length > 0) {
@@ -151,7 +175,13 @@ document.getElementById('noticeForm').addEventListener('submit', async (e) => {
       formData.append('duration', duration);
       formData.append('file', fileInput.files[0]);
       if (type === 'image') {
+        const fitMode = imageFitMode.value === 'custom' ? 'custom' : 'auto';
         formData.append('imageScale', imageSize.value || '100');
+        formData.append('imageFitMode', fitMode);
+        if (fitMode === 'custom') {
+          formData.append('imageWidth', imageWidth.value || '100');
+          formData.append('imageHeight', imageHeight.value || '100');
+        }
       }
 
       res = await fetch(`${API}/notice`, {
@@ -174,6 +204,9 @@ document.getElementById('noticeForm').addEventListener('submit', async (e) => {
     textLayoutGroup.classList.remove('hidden');
     linkGroup.classList.remove('hidden');
     imageSizeGroup.classList.add('hidden');
+    imageFitModeGroup.classList.add('hidden');
+    imageWidthGroup.classList.add('hidden');
+    imageHeightGroup.classList.add('hidden');
     fileGroup.classList.add('hidden');
     loadNotices();
   } catch (err) {
@@ -238,7 +271,7 @@ function renderNotices(notices) {
           <span class="type-badge type-${n.type}">${typeEmoji[n.type] || ''} ${n.type}</span>
           <div class="content-preview">${preview}</div>
           ${n.type === 'text' ? `<div class="duration-info">🧩 ${n.textLayout || 'single'} text mode</div>` : ''}
-          ${n.type === 'image' ? `<div class="duration-info">🖼 ${n.imageScale || 100}% size</div>` : ''}
+          ${n.type === 'image' ? `<div class="duration-info">🖼 ${n.imageFitMode === 'custom' ? `Custom: L ${n.imageWidth || 100}% • B ${n.imageHeight || 100}%` : 'Auto fit to screen'}</div>` : ''}
           ${n.type === 'text' && n.linkUrl ? `<div class="duration-info">🔗 Link is attached (QR only)</div>` : ''}
           <div class="duration-info">⏱ ${n.duration}s • ${new Date(n.createdAt).toLocaleString()}</div>
         </div>
@@ -277,12 +310,34 @@ async function editNotice(id) {
   }
 
   if (notice.type === 'image') {
+    const nextFitMode = prompt('Image fit mode (auto or custom):', notice.imageFitMode || 'auto');
+    if (nextFitMode === null) return;
+
+    const normalizedMode = String(nextFitMode).trim().toLowerCase() === 'custom' ? 'custom' : 'auto';
+
+    if (normalizedMode === 'auto') {
+      await updateNotice(id, {
+        duration: nextDuration,
+        imageFitMode: 'auto',
+      });
+      return;
+    }
+
     const nextScale = prompt('Image display size % (20-100):', String(notice.imageScale || 100));
     if (nextScale === null) return;
 
+    const nextWidth = prompt('Image length/width % (20-100):', String(notice.imageWidth || 100));
+    if (nextWidth === null) return;
+
+    const nextHeight = prompt('Image breadth/height % (20-100):', String(notice.imageHeight || 100));
+    if (nextHeight === null) return;
+
     await updateNotice(id, {
       duration: nextDuration,
+      imageFitMode: 'custom',
       imageScale: nextScale,
+      imageWidth: nextWidth,
+      imageHeight: nextHeight,
     });
     return;
   }
